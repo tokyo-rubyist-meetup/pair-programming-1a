@@ -1,0 +1,26 @@
+#!/usr/bin/env ruby
+
+$vocabulary = {
+    'ゼロ'          => '0',
+    'ロク'          => '6',
+    'ロ'            => '6',
+    "\n"            => '',
+}
+$tokens = $vocabulary.keys \
+    .sort { |x,y| y.length <=> x.length }
+$input = ARGF.read
+
+def consume_token
+    $tokens.each { |tok|
+        if $input[0..(tok.length-1)] == tok
+            print($vocabulary[tok])
+            $input = $input[(tok.length)..-1]
+            return true
+        end
+    }
+    puts("\nUnmatched input: " + $input.inspect)
+    false
+end
+
+loop { $input.length > 0 && consume_token || break }
+puts

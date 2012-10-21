@@ -1,0 +1,3 @@
+#!/bin/bash
+
+./read < input | diff -u expected -
