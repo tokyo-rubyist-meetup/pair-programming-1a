@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby
+# -*- coding: utf-8 -*-
+
+$vocabulary = {
+    '0'     => [ 'マル' , 'マ' , 'レイ' , 'レ' , 'オウ' , 'ゼロ' , 'ゼ' , ],
+    '1'     => [ 'ヒトツ' , 'ヒト' , 'ヒ' , 'イチ' , 'イ' , 'ワン' , ],
+    '2'     => [ 'フタツ' , 'フタ' , 'フ' , 'ニ' , 'ツ' , ],
+    '3'     => [ 'ミツ' , 'ミ' , 'サン' , 'サ' , 'スリー' , ],
+    '4'     => [ 'ヨン' , 'ヨ' , 'ヨツ' , 'シ' , 'フォー' , ],
+    '5'     => [ 'イツツ' , 'イツ' , 'ゴ' , 'コ' , 'ファイブ' , 'ファイヴ' , ],
+    '6'     => [ 'ムツ' , 'ム' , 'ロク' , 'ロ' , 'シックス' , ],
+    '7'     => [ 'ナナツ' , 'ナナ' , 'ナ' , 'シチ' , 'セブン' , 'セヴン' , ],
+    '8'     => [ 'ヤツ' , 'ヤ' , 'ハチ' , 'ハ' , 'バ' , 'エート' , ],
+    '9'     => [ 'ココノツ' , 'コ' , 'キュウ' , 'ク' , 'ナイン' , 'キュー' , ],
+    '10'    => [ 'トオ' , 'ジュウ' , 'ジ' , 'テン' , ],
+    '0'     => [ 'ゼロ' ],
+    '6'     => [ 'ロク', 'ロ' ],
+    "\n"    => ["\n",],
+    ''      => [' '],
+    '18782' => [ 'イヤナヤツ' ],
+}
+$token_map = {}
+$vocabulary.each {
+    |output, tokens|
+    tokens.each { |tok| $token_map[tok] = output }
+}
+$tokens = $token_map.keys \
+    .sort { |x,y| y.length <=> x.length }
+$input = ARGF.read
+
+# Trying to match each possible token in turn is not the most efficient
+# way of doing this, but that's not a big problem here because our
+# expected inputs are quite small. If we need to make this faster, I'd
+# suggest changin the list to a patricia trie encoding the bytes in each
+# token.
+#
+def consume_token
+    $tokens.each { |tok|
+        if $input[0..(tok.length-1)] == tok
+            print($token_map[tok])
+            $input = $input[(tok.length)..-1]
+            return true
+        end
+    }
+    puts("\nUnmatched input: " + $input.inspect + "\n" + $input)
+    false
+end
+
+loop { $input.length > 0 && consume_token || break }
