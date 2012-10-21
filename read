@@ -20,6 +20,12 @@ $tokens = $vocabulary.keys \
     .sort { |x,y| y.length <=> x.length }
 $input = ARGF.read
 
+# Trying to match each possible token in turn is not the most efficient
+# way of doing this, but that's not a big problem here because our
+# expected inputs are quite small. If we need to make this faster, I'd
+# suggest changin the list to a patricia trie encoding the bytes in each
+# token.
+#
 def consume_token
     $tokens.each { |tok|
         if $input[0..(tok.length-1)] == tok
