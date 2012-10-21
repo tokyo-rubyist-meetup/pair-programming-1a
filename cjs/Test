@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./read < input | diff -u expected -
+./read < input2 | diff -u expected -
