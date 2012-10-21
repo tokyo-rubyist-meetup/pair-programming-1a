@@ -65,7 +65,7 @@ class KanaToNumber
   transform["コ"] = "9"
   transform["キュウ"] = "9"
   transform["ク"] = "9"
-  transform["ナイン"] = "9"
+  transform["キュー"] = "9"
   transform["トオ"] = "10"
   transform["ジュウ"] = "10"
   transform["ジ"] = "10"
