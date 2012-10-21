@@ -47,4 +47,3 @@ def consume_token
 end
 
 loop { $input.length > 0 && consume_token || break }
-puts
